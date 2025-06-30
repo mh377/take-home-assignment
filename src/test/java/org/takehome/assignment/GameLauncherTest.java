@@ -25,7 +25,7 @@ public class GameLauncherTest {
 
         String[] args = new String[] {};
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 
@@ -42,7 +42,7 @@ public class GameLauncherTest {
                 "--betting-amount"
         };
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 
@@ -60,7 +60,7 @@ public class GameLauncherTest {
                 "100"
         };
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 
@@ -78,7 +78,7 @@ public class GameLauncherTest {
                 "100"
         };
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 
@@ -96,7 +96,7 @@ public class GameLauncherTest {
                 "100"
         };
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 
@@ -114,7 +114,7 @@ public class GameLauncherTest {
                 "0"
         };
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             GameLauncher.main(args);
         });
 

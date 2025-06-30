@@ -11,11 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GameResultAdapterTest {
+    private static final GameConfig config = GameUtils.readJsonFromResources("config.json", GameConfig.class);
 
     @BeforeEach
     public void before() {
-        GameConfig config = GameUtils.readJsonFromResources("config.json", GameConfig.class);
-
         // Populate the application context
         ApplicationContext context =  ApplicationContext.getInstance();
         context.setConfig(config);

@@ -17,7 +17,7 @@ public class GameLauncher {
         // Validate the arguments
         if (!hasValidArguments(args)) {
             log.error("Please ensure the program arguments are in the following format: --config config.json --betting-amount 100");
-            throw new RuntimeException("Invalid Program Arguments" );
+            throw new IllegalArgumentException("Invalid Program Arguments" );
         }
 
         // Read the program arguments

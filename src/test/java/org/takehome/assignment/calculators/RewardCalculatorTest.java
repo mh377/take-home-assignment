@@ -11,11 +11,9 @@ import org.takehome.assignment.utils.GameUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RewardCalculatorTest {
-
+    private static final GameConfig config = GameUtils.readJsonFromResources("config.json", GameConfig.class);
     @BeforeEach
     public void before() {
-        GameConfig config = GameUtils.readJsonFromResources("config.json", GameConfig.class);
-
         // Populate the application context
         ApplicationContext context =  ApplicationContext.getInstance();
         context.setConfig(config);

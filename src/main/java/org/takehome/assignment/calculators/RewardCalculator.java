@@ -14,6 +14,7 @@ public class RewardCalculator {
 
     private static final String MULTIPLY_REWARD = "multiply_reward";
     private static final String EXTRA_BONUS = "extra_bonus";
+    private static final String COLON = ":";
     private static final GameConfig config = ApplicationContext.getInstance().getConfig();
 
     public Reward calculate(Integer bettingAmount, Game game) {
@@ -25,25 +26,25 @@ public class RewardCalculator {
             return Reward.builder().reward(0).build();
         }
 
-        Map<String, List<String>> appliedSameSymbolWinCombinations = new HashMap<>();
-        setSameSymbolWinCombinations(appliedSameSymbolWinCombinations, winningSymbols);
-        setLinearSymbolWinCombinations(appliedSameSymbolWinCombinations, game.getMatrix(), winningSymbols);
+        Map<String, List<String>> appliedWinCombinations = new HashMap<>();
+        addSameSymbolWinCombinations(appliedWinCombinations, winningSymbols);
+        addLinearSymbolWinCombinations(appliedWinCombinations, game.getMatrix(), winningSymbols);
 
-        int totalReward = calculateTotalReward(bettingAmount, appliedSameSymbolWinCombinations, game);
+        int totalReward = calculateTotalReward(bettingAmount, appliedWinCombinations, game);
 
         return Reward.builder()
-                .appliedWinningCombinations(appliedSameSymbolWinCombinations)
+                .appliedWinningCombinations(appliedWinCombinations)
                 .reward(totalReward)
                 .build();
     }
 
-    private int calculateTotalReward(Integer bettingAmount, Map<String, List<String>> appliedSameSymbolWinCombinations, Game game) {
+    private int calculateTotalReward(Integer bettingAmount, Map<String, List<String>> appliedWinCombinations, Game game) {
 
         double totalReward = 0.0;
 
         double totalMultiplier;
 
-        for (Map.Entry<String, List<String>> entry: appliedSameSymbolWinCombinations.entrySet()) {
+        for (Map.Entry<String, List<String>> entry: appliedWinCombinations.entrySet()) {
 
             // Get the reward multiplier for the symbol
             totalMultiplier = config.getSymbols().get(entry.getKey()).getRewardMultiplier();
@@ -74,7 +75,7 @@ public class RewardCalculator {
     }
 
 
-    private void setSameSymbolWinCombinations(Map<String, List<String>> appliedSameSymbolWinCombinations, Map<String, Integer> winningSymbols) {
+    private void addSameSymbolWinCombinations(Map<String, List<String>> appliedSameSymbolWinCombinations, Map<String, Integer> winningSymbols) {
 
         // Find Winning combinations
         for (Map.Entry<String, Integer> winningSymbol : winningSymbols.entrySet()) {
@@ -89,7 +90,7 @@ public class RewardCalculator {
         }
     }
 
-    private void setLinearSymbolWinCombinations(Map<String, List<String>> appliedSameSymbolWinCombinations, String[][] matrix, Map<String, Integer> winningSymbols) {
+    private void addLinearSymbolWinCombinations(Map<String, List<String>> appliedWinCombinations, String[][] matrix, Map<String, Integer> winningSymbols) {
 
         // Find Winning combinations
         for (Map.Entry<String, Integer> winningSymbol : winningSymbols.entrySet()) {
@@ -100,12 +101,11 @@ public class RewardCalculator {
             for (Map.Entry<String, WinCombination> linearSymbol : linearSymbolWinCombinations.entrySet()) {
               String[][] coveredAreas = linearSymbol.getValue().getCoveredAreas();
 
-
               for (int i = 0; i < coveredAreas.length; i++) {
                   boolean hasWinningCombination = true;
                   for (int j = 0; j < coveredAreas[i].length; j++) {
                      String area = coveredAreas[i][j];
-                     String[] data = area.split(":");
+                     String[] data = area.split(COLON);
                      String areaSymbol = matrix[Integer.parseInt(data[0])][Integer.parseInt(data[1])];
 
                      if (!symbol.equalsIgnoreCase(areaSymbol)) {
@@ -114,7 +114,7 @@ public class RewardCalculator {
                   }
 
                   if (hasWinningCombination) {
-                      List<String> winCombinations = appliedSameSymbolWinCombinations.get(symbol);
+                      List<String> winCombinations = appliedWinCombinations.get(symbol);
                       String group = linearSymbol.getValue().getGroup();
                       winCombinations.add(group);
                   }
