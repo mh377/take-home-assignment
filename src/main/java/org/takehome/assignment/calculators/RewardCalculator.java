@@ -110,6 +110,7 @@ public class RewardCalculator {
 
                      if (!symbol.equalsIgnoreCase(areaSymbol)) {
                          hasWinningCombination = false;
+                         break;
                      }
                   }
 
