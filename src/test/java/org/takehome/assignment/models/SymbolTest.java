@@ -18,7 +18,7 @@ public class SymbolTest {
     }
 
     @Test
-    void shouldReturnFalseIfSymbolIsBonus() {
+    void shouldReturnFalseIfSymbolIsNotBonus() {
 
         Symbol symbol = new PopulatedSymbol(1.0, "standard", null);
 
